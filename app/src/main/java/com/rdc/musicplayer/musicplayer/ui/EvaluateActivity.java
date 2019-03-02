@@ -1,6 +1,7 @@
 package com.rdc.musicplayer.musicplayer.ui;
 
 import android.content.Intent;
+import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
