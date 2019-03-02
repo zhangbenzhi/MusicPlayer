@@ -66,7 +66,7 @@ public class MusicNotificationUtil {
         PendingIntent CloseIntent = PendingIntent.getBroadcast(context, 4, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         remoteViews.setOnClickPendingIntent(R.id.iv_nf_btn_close, CloseIntent);
 
-        builder.setContent(remoteViews).setSmallIcon(R.drawable.ic_logo);
+        builder.setContent(remoteViews).setSmallIcon(R.drawable.ic_launcher);
         notification = builder.build();
         notification.flags = Notification.FLAG_ONGOING_EVENT;
         notificationManager = ((NotificationManager) context.getSystemService(NOTIFICATION_SERVICE));

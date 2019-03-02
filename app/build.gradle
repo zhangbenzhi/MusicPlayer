@@ -2,11 +2,11 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "26.0.2"
+    buildToolsVersion "28.0.3"
     defaultConfig {
         applicationId "com.rdc.musicplayer.musicplayer"
         minSdkVersion 19
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -20,27 +20,26 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:design:25.3.1'
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.jakewharton:butterknife:8.7.0'
-    compile 'com.android.support:recyclerview-v7:25.3.1'
-    compile 'de.hdodenhof:circleimageview:2.1.0'
-    compile 'com.makeramen:roundedimageview:2.2.1'
-    compile 'com.github.bumptech.glide:glide:4.0.0-RC1'
-    compile 'com.android.support:support-v4:25.3.1'
-    compile 'com.youth.banner:banner:1.4.9'
-    compile 'com.android.support:cardview-v7:25.3.1'
+    implementation 'com.android.support:design:25.3.1'
+    implementation 'com.android.support:appcompat-v7:25.3.1'
+    implementation 'com.jakewharton:butterknife:8.7.0'
+    implementation 'com.android.support:recyclerview-v7:25.3.1'
+    implementation 'de.hdodenhof:circleimageview:2.1.0'
+    implementation 'com.makeramen:roundedimageview:2.2.1'
+    implementation 'com.github.bumptech.glide:glide:4.0.0-RC1'
+    implementation 'com.android.support:support-v4:25.3.1'
+    implementation 'com.youth.banner:banner:1.4.9'
+    implementation 'com.android.support:cardview-v7:25.3.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.7.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0-RC1'
-    compile 'com.google.code.gson:gson:2.8.1'
-    compile 'com.squareup.okhttp3:okhttp:3.8.0'
-    compile 'com.carson_ho:SearchLayout:1.0.1'
-    compile 'com.tencent.bugly:crashreport:latest.release'
-    compile 'com.github.dfqin:grantor:2.1.0'
-    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
-    testCompile 'junit:junit:4.12'
+    implementation 'com.google.code.gson:gson:2.8.1'
+    implementation 'com.squareup.okhttp3:okhttp:3.8.0'
+    implementation 'com.carson_ho:SearchLayout:1.0.1'
+    implementation 'com.github.dfqin:grantor:2.1.0'
+    testImplementation 'junit:junit:4.12'
 }

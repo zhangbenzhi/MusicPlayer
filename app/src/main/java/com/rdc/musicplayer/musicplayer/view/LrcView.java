@@ -74,7 +74,7 @@ public class LrcView extends View {
         super(context, attrs, defStyleAttr);
 
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.LrcView);
-        highLineColor = ta.getColor(R.styleable.LrcView_hignLineColor, getResources().getColor(R.color.green));
+        highLineColor = ta.getColor(R.styleable.LrcView_hignLineColor, getResources().getColor(R.color.colorPrimaryDark));
         lrcColor = ta.getColor(R.styleable.LrcView_lrcColor, getResources().getColor(android.R.color.darker_gray));
         mode = ta.getInt(R.styleable.LrcView_lrcMode, mode);
         ta.recycle();

@@ -42,8 +42,6 @@ public class LocalMusicFragment extends BaseFragment implements OnMusicChooseLis
     MarqueeTextView mMtvMusicName;
     @BindView(R.id.iv_music_playing)
     ImageView mIvMusicPlaying;
-    @BindView(R.id.iv_music_operate)
-    ImageView mIvMusicOperate;
     @BindView(R.id.ll_local_music)
     LinearLayout mLlLocalMusic;
 
@@ -98,7 +96,7 @@ public class LocalMusicFragment extends BaseFragment implements OnMusicChooseLis
         super.onResume();
     }
 
-    @OnClick({R.id.iv_music_playing, R.id.iv_music_operate, R.id.ll_local_music})
+    @OnClick({R.id.iv_music_playing, R.id.ll_local_music})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_music_playing:
@@ -112,8 +110,6 @@ public class LocalMusicFragment extends BaseFragment implements OnMusicChooseLis
                     PlayMusicUtil.getInstance().pause();
                 }
                 updateBottom();
-                break;
-            case R.id.iv_music_operate:
                 break;
             case R.id.ll_local_music:
                 startActivity(PlayMusicActivity.class);

@@ -2,6 +2,7 @@ package com.rdc.musicplayer.musicplayer.ui;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -14,7 +15,6 @@ import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -40,8 +40,6 @@ import com.rdc.musicplayer.musicplayer.utils.GetCurLrcUtil;
 import com.rdc.musicplayer.musicplayer.utils.GetThumbnailUtil;
 import com.rdc.musicplayer.musicplayer.utils.LrcUtil;
 import com.rdc.musicplayer.musicplayer.utils.PlayMusicUtil;
-import com.rdc.musicplayer.musicplayer.utils.ScreenUtil;
-import com.rdc.musicplayer.musicplayer.utils.ShareLocalMusicUtil;
 import com.rdc.musicplayer.musicplayer.utils.TimeFormatUtil;
 import com.rdc.musicplayer.musicplayer.view.LrcView;
 import com.rdc.musicplayer.musicplayer.view.MarqueeTextView;
@@ -55,21 +53,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class PlayMusicActivity extends BaseActivity implements ILoadLrcContract.View, IGetMusicLrcContract.View, OnStartPlayListener {
 
     @BindView(R.id.rl_play_music)
-    RelativeLayout mRlPlayMusic;
+    LinearLayout mRlPlayMusic;
     @BindView(R.id.mtv_music_name)
     MarqueeTextView mMtvMusicName;
     @BindView(R.id.tb_title)
     Toolbar mTbTitle;
     @BindView(R.id.tv_singer_name)
     TextView mTvSingerName;
-    @BindView(R.id.ll_singer_name)
-    LinearLayout mLlSingerName;
     @BindView(R.id.civ_music_album)
     CircleImageView mCivMusicAlbum;
-    @BindView(R.id.tv_lrc)
-    TextView mTvLrc;
-    @BindView(R.id.ll_right_menu)
-    LinearLayout mLlRightMenu;
     @BindView(R.id.lv_music_lrc)
     LrcView mLvMusicLrc;
     @BindView(R.id.iv_action_play)
@@ -80,22 +72,12 @@ public class PlayMusicActivity extends BaseActivity implements ILoadLrcContract.
     ImageView mIvActionPlayMode;
     @BindView(R.id.iv_action_play_next)
     ImageView mIvActionPlayNext;
-    @BindView(R.id.iv_action_show_lrc)
-    ImageView mIvActionShowLrc;
     @BindView(R.id.tv_current_time)
     TextView mTvCurrentTime;
     @BindView(R.id.tv_total_time)
     TextView mTvTotalTime;
     @BindView(R.id.sb_music_progress)
     SeekBar mSbMusicProgress;
-    @BindView(R.id.iv_collect)
-    ImageView mIvCollect;
-    @BindView(R.id.iv_download)
-    ImageView mIvDownload;
-    @BindView(R.id.iv_share)
-    ImageView mIvShare;
-    @BindView(R.id.iv_more)
-    ImageView mIvMore;
 
     private List<Lyrics> mLyricsList;
 
@@ -108,7 +90,6 @@ public class PlayMusicActivity extends BaseActivity implements ILoadLrcContract.
                 mSbMusicProgress.setProgress(currentTime);
                 if (mLyricsList != null) {
                     String curLrc = GetCurLrcUtil.getCurLrc(MusicPlayService.sMediaPlayer, mLyricsList);
-                    mTvLrc.setText(curLrc);
                 }
                 mHandler.sendEmptyMessageDelayed(0, 200);
             }
@@ -160,11 +141,6 @@ public class PlayMusicActivity extends BaseActivity implements ILoadLrcContract.
                 finish();
             }
         });
-
-        mLlRightMenu.getLayoutParams().width = ScreenUtil.getScreenWidth(this);
-        mLlRightMenu.requestLayout();
-        mIvActionShowLrc.setSelected(true);
-
         updateAlbum();
         update();
     }
@@ -225,11 +201,9 @@ public class PlayMusicActivity extends BaseActivity implements ILoadLrcContract.
         });
     }
 
-    @OnClick({R.id.tv_lrc, R.id.iv_action_play, R.id.iv_action_play_pre, R.id.iv_action_play_mode, R.id.iv_action_play_next, R.id.iv_action_show_lrc, R.id.iv_collect, R.id.iv_download, R.id.iv_share, R.id.iv_more})
+    @OnClick({R.id.iv_action_play, R.id.iv_action_play_pre, R.id.iv_action_play_mode, R.id.iv_action_play_next, R.id.iv_action_evaluate})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.tv_lrc:
-                break;
             case R.id.iv_action_play:
                 PlayMusicUtil.getInstance().pause();
                 update();
@@ -262,25 +236,11 @@ public class PlayMusicActivity extends BaseActivity implements ILoadLrcContract.
                 fetchLrc();
                 update();
                 break;
-            case R.id.iv_action_show_lrc:
-                boolean isSelected = !mIvActionShowLrc.isSelected();
-                mIvActionShowLrc.setSelected(isSelected);
-                if (isSelected) {
-                    mTvLrc.setVisibility(View.VISIBLE);
-                } else {
-                    mTvLrc.setVisibility(View.INVISIBLE);
-                }
-                break;
-            case R.id.iv_collect:
-                break;
-            case R.id.iv_download:
-                break;
-            case R.id.iv_share:
-                if (PlayMusicUtil.CURRENT_MUSIC.getSongId() == -1) {
-                    ShareLocalMusicUtil.shareLocalMusic(PlayMusicUtil.CURRENT_MUSIC.getUrl(), this);
-                }
-                break;
-            case R.id.iv_more:
+            case R.id.iv_action_evaluate:
+                //评论：
+                Intent intent = new Intent(this, EvaluateActivity.class);
+                intent.putExtra("key", songName);
+                startActivity(intent);
                 break;
         }
     }
@@ -299,6 +259,8 @@ public class PlayMusicActivity extends BaseActivity implements ILoadLrcContract.
 
     }
 
+    private String songName;
+
     private void update() {
         if (PlayMusicUtil.CURRENT_STATE == PlayMusicUtil.PLAY) {
             mIvActionPlay.setImageResource(R.drawable.ic_action_pause);
@@ -306,6 +268,10 @@ public class PlayMusicActivity extends BaseActivity implements ILoadLrcContract.
             mIvActionPlay.setImageResource(R.drawable.ic_action_playing);
         }
         Music music = PlayMusicUtil.CURRENT_MUSIC;
+        try {
+            this.songName = music.getSongName().replace(".", "_");
+        } catch (Exception e) {
+        }
         mMtvMusicName.setText(music.getSongName());
         mTvSingerName.setText(music.getSingerName());
         mHandler.sendEmptyMessage(0);

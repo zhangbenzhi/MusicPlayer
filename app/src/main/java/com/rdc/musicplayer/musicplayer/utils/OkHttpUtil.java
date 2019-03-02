@@ -3,8 +3,11 @@ package com.rdc.musicplayer.musicplayer.utils;
 import android.os.Handler;
 import android.os.Looper;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -216,6 +219,24 @@ public class OkHttpUtil {
      */
     public void cancelAllRequest() {
         mOkHttpClient.dispatcher().cancelAll();
+    }
+
+
+    public  String streamToString(InputStream inputStream) {
+        try {
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+            String s = null;
+            StringBuilder builder = new StringBuilder();
+            while ((s = bufferedReader.readLine()) != null) {
+                builder.append(s);
+            }
+            bufferedReader.close();
+            return builder.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
 }
