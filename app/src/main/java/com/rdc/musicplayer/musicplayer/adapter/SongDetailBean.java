@@ -9,6 +9,5 @@ public class SongDetailBean {
     public class SongDetailData {
         public String id;
         public String url;
-        public String name;
     }
 }

@@ -43,7 +43,7 @@ public class SongAdapter extends RecyclerView.Adapter {
                 @Override
                 public void onClick(View v) {
                     if (onSongItemClickListener != null) {
-                        onSongItemClickListener.onClickItem(searchSongs.get(position).id,searchSongs.get(position).ar.get(0).name);
+                        onSongItemClickListener.onClickItem(searchSongs.get(position).id,searchSongs.get(position).name);
                     }
                 }
             });
@@ -51,7 +51,7 @@ public class SongAdapter extends RecyclerView.Adapter {
                 @Override
                 public void onClick(View v) {
                     if (onSongItemClickListener != null) {
-                        onSongItemClickListener.onDownLoad(searchSongs.get(position).id,searchSongs.get(position).ar.get(0).name);
+                        onSongItemClickListener.onDownLoad(searchSongs.get(position).id,searchSongs.get(position).name);
                     }
                 }
             });

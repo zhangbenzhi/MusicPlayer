@@ -106,4 +106,12 @@ public class LocalSongFragment extends BaseFragment implements IGetLocalSongCont
         Log.e("error", "onItemLongClick" + position);
         return false;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mGetLocalSongPresenter != null) {
+            mGetLocalSongPresenter.getLocalSong(mBaseActivity);
+        }
+    }
 }

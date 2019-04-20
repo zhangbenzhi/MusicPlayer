@@ -115,6 +115,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 }
                 mCurrentFragment = mLocalMusicFragment;
                 mToolbar.setTitle(getResources().getString(R.string.string_local_music));
+                fragmentTransaction.commit();
                 break;
             case R.id.nav_search_music:
                 //搜索
@@ -124,7 +125,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 break;
         }
         mDrawerLayout.closeDrawer(GravityCompat.START);
-        fragmentTransaction.commit();
         return true;
     }
 

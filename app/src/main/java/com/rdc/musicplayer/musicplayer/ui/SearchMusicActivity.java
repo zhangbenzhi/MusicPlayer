@@ -1,7 +1,10 @@
 package com.rdc.musicplayer.musicplayer.ui;
 
 import android.app.DownloadManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -58,6 +61,10 @@ public class SearchMusicActivity extends BaseActivity implements View.OnClickLis
         songAdapter = new SongAdapter(searchSongs);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(songAdapter);
+
+        //注册广播接收器
+        IntentFilter filter = new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
+        registerReceiver(receiver, filter);
     }
 
     @Override
@@ -92,7 +99,7 @@ public class SearchMusicActivity extends BaseActivity implements View.OnClickLis
         });
     }
 
-    private void detail(String songName, String songId, final boolean isDownload) {
+    private void detail(final String songName, String songId, final boolean isDownload) {
         final String url = "https://api.imjad.cn/cloudmusic/?type=song&id=" + songId;
         OkHttpUtil.getInstance().getAsync(url, new OkHttpResultCallback() {
             @Override
@@ -110,7 +117,7 @@ public class SearchMusicActivity extends BaseActivity implements View.OnClickLis
                             SongDetailBean songDetailBean = GsonUtil.getGson().fromJson(s, SongDetailBean.class);
                             String songUrl = songDetailBean.data.get(0).url;
                             if (isDownload) {
-                                downLoad(songUrl, songDetailBean.data.get(0).name);
+                                downLoad(songUrl, songName);
                             } else {
                                 PlayMusicUtil.CURRENT_MUSIC_POSITION = 0;
                                 PlayMusicUtil.CURRENT_MUSIC_LIST = new ArrayList<>();
@@ -193,4 +200,19 @@ public class SearchMusicActivity extends BaseActivity implements View.OnClickLis
         DownloadManager systemService = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
         systemService.enqueue(request);
     }
+
+    /**
+     * 广播接受器, 下载完成监听器
+     */
+    BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals(DownloadManager.ACTION_DOWNLOAD_COMPLETE)) {
+                //下载完成了
+                //获取当前完成任务的ID
+                Toast.makeText(SearchMusicActivity.this, "歌曲下载完成", Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
 }
