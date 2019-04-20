@@ -1,6 +1,7 @@
 package com.rdc.musicplayer.musicplayer;
 
 import android.Manifest;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -16,6 +17,7 @@ import com.github.dfqin.grantor.PermissionsUtil;
 import com.rdc.musicplayer.musicplayer.base.BaseActivity;
 import com.rdc.musicplayer.musicplayer.base.BaseFragment;
 import com.rdc.musicplayer.musicplayer.fragment.LocalMusicFragment;
+import com.rdc.musicplayer.musicplayer.ui.SearchMusicActivity;
 
 import butterknife.BindView;
 
@@ -113,6 +115,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 }
                 mCurrentFragment = mLocalMusicFragment;
                 mToolbar.setTitle(getResources().getString(R.string.string_local_music));
+                break;
+            case R.id.nav_search_music:
+                //搜索
+                startActivity(new Intent(this, SearchMusicActivity.class));
                 break;
             default:
                 break;
